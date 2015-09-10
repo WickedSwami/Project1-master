@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class ReadFile
 {
     private HashMap<String,Integer> countWords = new HashMap<String,Integer>();
+    private ArrayList<String> myWords = new ArrayList<String>();
     
     /**
      * Constructor for objects of class ReadFile
@@ -27,7 +28,7 @@ public class ReadFile
         while (infile.hasNext())
         {
             String word = infile.next();
-            countWords.put(word,0);
+            myWords.add(word);
             
             
             /*ArrayList<String> wordBank = new ArrayList<String>();
@@ -63,7 +64,6 @@ public class ReadFile
         outputFile.println("<html>");
         outputFile.println("<body>");
         
-        this.countWordOccurences(someWords);
         
         /*for (String word: someWords.keySet()) {
             
@@ -75,8 +75,14 @@ public class ReadFile
         outputFile.println("</html>");
         outputFile.println("</body>");
     }
+    
+    
+    public HashMap<String, Integer> getCountWords()
+    {
+        return countWords;
+    }
  
-    public HashMap<String,Integer> getCountWords()
+    public ArrayList<String> getMyWords()
     {
         /*ArrayList<String> allWords = new ArrayList<String>();
         
@@ -87,21 +93,42 @@ public class ReadFile
         return allWords;
         */
        
-        return countWords;
+        return myWords;
     }
     
-    public HashMap<String, Integer> countWordOccurences(HashMap<String,Integer> words) {
+    public HashMap<String, Integer> countWordOccurences(ArrayList<String> words) {
+        int i=1;
         
-        for (String word : words.keySet()) {
-            if (countWords.containsKey(word)) {
-                Integer value = 1;
-                countWords.put(word, new Integer(value));
+        for (String word : words) {
+            
+            if (!countWords.containsKey(word)) {
+                countWords.put(word, 1);
             } else {
-                Integer consecutiveOcc = countWords.get(word);
-                consecutiveOcc ++;
-                countWords.put(word, new Integer(consecutiveOcc));
+                countWords.put(word,countWords.get(word)+1);
             }
         }
+        
+        
+        
+        /*for (String word : words) {
+            if (myWords.contains(word)) {
+                //Integer value = 1;
+                //countWords.put(word, new Integer(value));
+                
+                Integer consecutiveOcc = 1;
+                consecutiveOcc ++;
+                countWords.put(word, new Integer(consecutiveOcc));
+            } else {
+                Integer value = 1;
+                countWords.put(word, new Integer(value));
+                
+                //Integer consecutiveOcc = countWords.get(word);
+                //consecutiveOcc ++;
+                //countWords.put(word, new Integer(consecutiveOcc));
+            }
+            
+        } */ 
+        
         
         return countWords;
     }
@@ -117,11 +144,14 @@ public class ReadFile
             try {
                 Scanner in = new Scanner(fileToRead);
                 mainObject.readIt(in);
-                HashMap<String,Integer> wordCloud = mainObject.getCountWords();
+                
+                
+                ArrayList<String> wordCloud = mainObject.getMyWords();
+                HashMap<String,Integer> wordMap = mainObject.getCountWords();
                 mainObject.countWordOccurences(wordCloud);
 
                 PrintWriter outFile = new PrintWriter("WickedWords.html");
-                mainObject.writeIt(outFile,wordCloud);
+                mainObject.writeIt(outFile,wordMap);
                 outFile.close();
             } catch (IOException e) {
                 System.out.println("There's a file error! " + e);
