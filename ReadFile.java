@@ -29,6 +29,11 @@ public class ReadFile
             int freq = 1;
             String word = infile.next();
             countWords.put(word, freq);
+            for (String w : countWords.keySet()) {
+                if (countWords.get(word)!=null) {
+                    freq++;
+                }
+            }
             System.out.println(word);
         }
         
@@ -47,10 +52,7 @@ public class ReadFile
 		
         for (String word: someWords) {
             int freq = countWords.get(word);
-            outputFile.println("WORD: " + "<p style='font-size:"+freq*10+"'>"+word+"</p>"););
-            
-            outputFile.println("FREQUENCY: " + freq);
-
+            outputFile.println("<p style='font-size:"+freq*10+"'>"+word+"</p>");
         }
         
         outputFile.println("</html>");
