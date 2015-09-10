@@ -26,12 +26,17 @@ public class ReadFile
         
         while (infile.hasNext())
         {
-            int freq = 1;
             String word = infile.next();
-            countWords.put(word, freq);
+            countWords.put(word,0);
+
             for (String w : countWords.keySet()) {
-                if (countWords.get(word)!=null) {
-                    freq++;
+                if (countWords.containsKey(word)) {
+                    int freq = 1;
+                    countWords.put(word,new Integer(freq));
+                } else {
+                    int consecutiveOcc = countWords.get(word);
+                    consecutiveOcc++;
+                    countWords.put(word,new Integer(consecutiveOcc));
                 }
             }
             System.out.println(word);
@@ -48,15 +53,15 @@ public class ReadFile
     public void writeIt(PrintWriter outputFile, ArrayList<String> someWords)
     {
         outputFile.println("<html>");
-		outputFile.println("<body>");
-		
+        outputFile.println("<body>");
+        
         for (String word: someWords) {
             int freq = countWords.get(word);
             outputFile.println("<p style='font-size:"+freq*10+"'>"+word+"</p>");
         }
         
         outputFile.println("</html>");
-		outputFile.println("</body>");
+        outputFile.println("</body>");
     }
  
     public HashMap<String,Integer> getCountWords()
@@ -95,4 +100,6 @@ public class ReadFile
         }
     
     }
+    
+    
 }
