@@ -27,16 +27,19 @@ public class ReadFile
         while (infile.hasNext())
         {
             String word = infile.next();
-            countWords.put(word,0);
+            ArrayList<String> wordBank = new ArrayList<String>();
+            wordBank.add(word);
+            
+            countWords.put(word,1);
 
-            for (String w : countWords.keySet()) {
-                if (countWords.containsKey(word)) {
+            for (String w : wordBank) {
+                if (countWords.containsKey(w)) {
                     int freq = 1;
-                    countWords.put(word,new Integer(freq));
+                    countWords.put(w,new Integer(freq));
                 } else {
-                    int consecutiveOcc = countWords.get(word);
+                    int consecutiveOcc = countWords.get(w);
                     consecutiveOcc++;
-                    countWords.put(word,new Integer(consecutiveOcc));
+                    countWords.put(w,new Integer(consecutiveOcc));
                 }
             }
             System.out.println(word);
