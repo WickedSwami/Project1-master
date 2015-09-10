@@ -65,12 +65,12 @@ public class ReadFile
         outputFile.println("<body>");
         
         
-        /*for (String word: someWords.keySet()) {
+        for (String word: someWords.keySet()) {
             
             int freq = someWords.get(word);
             outputFile.println("<p style='font-size:"+freq*10+"'>"+word+"</p>");
-        }*/
-        outputFile.println(someWords);
+        }
+        //outputFile.println(someWords);
         
         outputFile.println("</html>");
         outputFile.println("</body>");
