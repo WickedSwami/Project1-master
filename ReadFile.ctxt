@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=infile
+comment0.target=void\ readIt(java.util.Scanner)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ ReadFile\r\n
+comment1.params=outputFile\ someWords
+comment1.target=void\ writeIt(java.io.PrintWriter,\ java.util.ArrayList)
+comment1.text=\r\n\ BONUS\:\ Writing\ to\ a\ file\r\n\ @param\ outputFile\ is\ the\ file\ object\ for\ output\r\n\ @param\ someWords\ is\ a\ list\ of\ words\ to\ print\ out\r\n
+comment2.params=
+comment2.target=java.util.HashMap\ getCountWords()
+comment3.params=args
+comment3.target=void\ main(java.lang.String[])
+numComments=4

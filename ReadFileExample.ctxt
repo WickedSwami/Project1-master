@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=infile
+comment0.target=void\ readIt(java.util.Scanner)
+comment0.text=\r\n\ echo\ the\ given\ file\r\n\ kind\ of\ boring\r\n\ @param\ the\ scanner\ for\ the\ file\r\n
+comment1.params=outputFile\ someWords
+comment1.target=void\ writeIt(java.io.PrintWriter,\ java.util.ArrayList)
+comment1.text=\r\n\ BONUS\:\ Writing\ to\ a\ file\r\n\ @param\ outputFile\ is\ the\ file\ object\ for\ output\r\n\ @param\ someWords\ is\ a\ list\ of\ words\ to\ print\ out\r\n
+comment2.params=args
+comment2.target=void\ main(java.lang.String[])
+numComments=3
