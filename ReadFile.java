@@ -3,9 +3,9 @@ import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.ArrayList;
+import java.util.*;
+//import java.util.Set;
+//import java.util.ArrayList;
 
 /**
  * Write a description of class ReadFile here.
@@ -149,6 +149,24 @@ public class ReadFile
                 ArrayList<String> wordCloud = mainObject.getMyWords();
                 HashMap<String,Integer> wordMap = mainObject.getCountWords();
                 mainObject.countWordOccurences(wordCloud);
+                
+                Iterator it = wordMap.entrySet().iterator();
+                while (it.hasNext()) {
+                    Map.Entry pairs = (Map.Entry) it.next();
+                    //System.out.println(pairs.getKey() + " = " + pairs.getValue());
+                }
+                
+                ArrayList<HashMap<String,Integer>> sortThis=new ArrayList<HashMap<String,Integer>>();
+                //List<String> wordList = new ArrayList<String>(wordMap.keySet());
+                //List<Integer> valueList = new ArrayList<Integer>(wordMap.values());
+                
+                for (String s : wordMap.keySet()) {
+                    HashMap<String, Integer> entry = new HashMap<String, Integer>();
+                    entry.put(s,wordMap.get(s));
+                    sortThis.add(entry);
+                }
+                
+                
 
                 PrintWriter outFile = new PrintWriter("WickedWords.html");
                 mainObject.writeIt(outFile,wordMap);
@@ -160,53 +178,108 @@ public class ReadFile
     
     }
     
-    /*public static void mergeSort(int[] theList)
+    public static void mergeSort(ArrayList<HashMap<String,Integer>> theList)
     {
-        mergeSortWork(theList,0,theList.length-1);
+        HashMap<String, Integer> items = new HashMap<String,Integer>();
+        for (HashMap<String,Integer> hm : theList) {
+            for (String s : hm.keySet()) {
+                
+                items.put(s,hm.get(s));
+                List<Integer> valueList = new ArrayList<Integer>();
+                valueList.add((items.get(s)));
+                mergeSortWork(items,0,valueList.size()-1);
+            }
+        }
+        
+        
+        /*Iterator it = items.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pairs = (Map.Entry) it.next();
+            List<Integer> valueList = new ArrayList<Integer>(items.values());
+            mergeSortWork(valueList.size(),0,valueList.size()-1);
+        } */
+        
+        
     }
     
-    public static void mergeSortWork(int [] theList, int startIndex, int endIndex)
+    public static void mergeSortWork(HashMap<String, Integer> theList, int startIndex, int endIndex)
     {
-    	if (startIndex < endIndex) {
-    		int listLength = endIndex - startIndex+1;
-    		int middle = startIndex + listLength/2;
-    		mergeSortWork(theList, startIndex, middle);
-    		mergeSortWork(theList, middle+1, endIndex);
-    		merge(theList, startIndex, middle+1, endIndex);
-    	}
+        if (startIndex < endIndex) {
+            int listLength = endIndex - startIndex+1;
+            int middle = startIndex + listLength/2;
+            mergeSortWork(theList, startIndex, middle);
+            mergeSortWork(theList, middle+1, endIndex);
+            merge(theList, startIndex, middle+1, endIndex);
+        }
     }
     
-    public static void merge(int [] theList, int startA, int startB, int endB) 
+    public static void merge(HashMap<String,Integer> theList, int startA, int startB, int endB) 
     {
-    	int listLength = endB-startA + 1;
-    	int[] temporaryList = new int[listLength];
-    	int index = 0;
-    	int indexA = startA;
-    	int indexB = startB;
-    	while (indexA < startB && indexB <= endB) {
-    		if (theList[indexA] < theList[indexB]) {
-    			temporaryList[index] = theList[indexA];
-    			indexA++;
-    		} else {
-    			temporaryList[index] = theList[indexB];
-    			indexB++;
-    		}
-    		
-    		index++;
-    	}
-    	
-    	for (;indexA<startB;indexA++,index++) {
-    		temporaryList[index] = theList[indexA];
-    	}
-    	
-    	for (;indexB<=startB;indexB++,index++) {
-    		temporaryList[index] = theList[indexB];
-    	}
-    	
-    	for (int i = 0; i < index; i++) {
-    		theList[startA+i]=temporaryList[i];
-    	}
-    }*/
+       HashMap<Integer,String> reverseList = new HashMap<Integer,String>();
+       HashMap<String,Integer> temporaryList = new HashMap<String,Integer>();
+       
+       int listLength = endB-startA + 1;
+       int index = 0;
+       int indexA = startA;
+       int indexB = startB;
+       
+       Iterator it = theList.entrySet().iterator();
+       while (it.hasNext()) {
+            
+        Map.Entry nums = (Map.Entry) it.next();
+        List<String> keyList = new ArrayList<String>(theList.keySet());
+        List<Integer> valueList = new ArrayList<Integer>(theList.values());
+
+           
+           for (int i=0; i<keyList.size(); i++) {
+                reverseList.put(valueList.get(i),keyList.get(i));
+           }
+           
+           for (String w : keyList) {
+               while (indexA < startB && indexB <= endB) {
+                   if (valueList.get(indexA) < theList.get(w)) {
+                       temporaryList.put(w, indexA);
+                       indexA++;
+                   } else {
+                       temporaryList.put(w, indexB);
+                       indexB++;
+                   }
+                   index++;
+                }
+                
+               for (;indexA<startB;indexA++,index++) {
+                   theList.put(w, indexA);
+                   
+               }
+               for (;indexB<startB;indexB++,index++) {
+                   theList.put(w, indexB);
+                   
+               }
+               for (int i=0; i<index; i++) {
+                   theList.put(keyList.get(startA+i), i);
+               }
+            }
+        }
+        
+       /*while (indexA < startB && indexB <= endB) {
+           if (theList.get(indexA) < theList.get(indexB)) {
+               temporaryList.put(theList.get(indexA), indexA);
+            }
+           
+           
+           for (String w : theList.keySet()) {
+               if (theList.get(w) < theList.get(indexA)) {
+                   temporaryList.put(reverseList.get(indexA),indexA);
+                   indexA++;
+               } else {
+                   temporaryList.put(reverseList.get(indexB), indexB);
+                   indexB++;
+               }
+            
+            index++;
+           } 
+       }*/
+    }
     
     
 }
