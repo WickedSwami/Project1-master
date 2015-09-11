@@ -165,9 +165,8 @@ public class ReadFile
                     entry.put(s,wordMap.get(s));
                     sortThis.add(entry);
                 }
+                mergeSort(sortThis);
                 
-                
-
                 PrintWriter outFile = new PrintWriter("WickedWords.html");
                 mainObject.writeIt(outFile,wordMap);
                 outFile.close();
@@ -215,7 +214,7 @@ public class ReadFile
     
     public static void merge(HashMap<String,Integer> theList, int startA, int startB, int endB) 
     {
-       HashMap<Integer,String> reverseList = new HashMap<Integer,String>();
+       //HashMap<Integer,String> reverseList = new HashMap<Integer,String>();
        HashMap<String,Integer> temporaryList = new HashMap<String,Integer>();
        
        int listLength = endB-startA + 1;
@@ -231,13 +230,13 @@ public class ReadFile
         List<Integer> valueList = new ArrayList<Integer>(theList.values());
 
            
-           for (int i=0; i<keyList.size(); i++) {
+           /*for (int i=0; i<keyList.size(); i++) {
                 reverseList.put(valueList.get(i),keyList.get(i));
-           }
+           }*/
            
            for (String w : keyList) {
                while (indexA < startB && indexB <= endB) {
-                   if (valueList.get(indexA) < theList.get(w)) {
+                   if (valueList.get(indexA) < valueList.get(indexB)) {
                        temporaryList.put(w, indexA);
                        indexA++;
                    } else {
@@ -260,25 +259,6 @@ public class ReadFile
                }
             }
         }
-        
-       /*while (indexA < startB && indexB <= endB) {
-           if (theList.get(indexA) < theList.get(indexB)) {
-               temporaryList.put(theList.get(indexA), indexA);
-            }
-           
-           
-           for (String w : theList.keySet()) {
-               if (theList.get(w) < theList.get(indexA)) {
-                   temporaryList.put(reverseList.get(indexA),indexA);
-                   indexA++;
-               } else {
-                   temporaryList.put(reverseList.get(indexB), indexB);
-                   indexB++;
-               }
-            
-            index++;
-           } 
-       }*/
     }
     
     
