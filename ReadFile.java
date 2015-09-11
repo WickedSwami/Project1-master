@@ -118,7 +118,64 @@ public class ReadFile
     
     }
     
-    public static void mergeSort(ArrayList<String> theList, ArrayList<Integer> theValues)
+       public static void mergeSort(ArrayList<String> theList, ArrayList<Integer> theValues)
+    {
+        mergeSortWork(theList,theValues,0,theList.size()-1);
+    }
+    
+    public static void mergeSortWork(ArrayList<String> theList, ArrayList<Integer> theValues, int startIndex, int endIndex)
+    {
+        System.out.println(startIndex+ " " + endIndex);
+        if (startIndex < endIndex) {
+            int listLength = endIndex - startIndex+1;
+            int middle = startIndex + listLength/2;
+            mergeSortWork(theList, theValues, startIndex, middle-1);
+            mergeSortWork(theList, theValues, middle, endIndex);
+            merge(theList, theValues, startIndex, middle, endIndex);
+        }
+    }
+    
+    public static void merge(ArrayList<String> theList, ArrayList<Integer> theValues, int startA, int startB, int endB) 
+    {
+       
+             
+       int listLength = endB-startA + 1;
+       System.out.println(startA + " " + startB + " " + endB + " " + listLength);
+        ArrayList<String> tempArray = new ArrayList<String>();
+       int index = 0;
+       int indexA = startA;
+       int indexB = startB;
+       
+       while (indexA < startB && indexB <= endB) {
+           if (theValues.get(indexA) < theValues.get(indexB)) {
+               
+               tempArray.add(theList.get(indexA));
+               indexA++;
+           } else {
+               tempArray.add(theList.get(indexB));
+               indexB++;
+           }
+           index++;
+       }
+                
+           for (;indexA<startB;indexA++,index++) {
+               tempArray.add(theList.get(indexA));
+               
+           }
+           
+           for (;indexB<startB;indexB++,index++) {
+               tempArray.add(theList.get(indexB));
+               
+           }
+           
+           for (int i=0; i<index; i++) {
+               theList.set(startA+i, tempArray.get(i));
+               
+           }
+        
+    }
+    
+    /*public static void mergeSort(ArrayList<String> theList, ArrayList<Integer> theValues)
     {
         mergeSortWork(theList,theValues,0,theList.size()-1);
     }
@@ -173,6 +230,6 @@ public class ReadFile
            }
         }
         
-    }
+    }*/
     
 }
