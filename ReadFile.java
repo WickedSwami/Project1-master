@@ -120,7 +120,7 @@ public class ReadFile
     
     public static void mergeSort(ArrayList<String> theList, ArrayList<Integer> theValues)
     {
-        mergeSortWork(theList,theValues,0,theValues.size()-1);
+        mergeSortWork(theList,theValues,0,theList.size()-1);
     }
     
     public static void mergeSortWork(ArrayList<String> theList, ArrayList<Integer> theValues, int startIndex, int endIndex)
@@ -143,7 +143,6 @@ public class ReadFile
        int index = 0;
        int indexA = startA;
        int indexB = startB;
-       
        
        while (indexA < startB && indexB <= endB) {
            if (theValues.get(indexA) < theValues.get(indexB)) {
