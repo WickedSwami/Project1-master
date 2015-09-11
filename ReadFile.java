@@ -163,7 +163,7 @@ public class ReadFile
                
            }
            
-           for (;indexB<startB;indexB++,index++) {
+           for (;indexB<=endB;indexB++,index++) {
                tempArray.add(theList.get(indexB));
                
            }
