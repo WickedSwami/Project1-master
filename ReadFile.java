@@ -132,26 +132,18 @@ public class ReadFile
                 
                 ArrayList<String> wordCloud = mainObject.getMyWords();
                 mainObject.countWordOccurences(wordCloud);
-                
-                
                 HashMap<String,Integer> wordMap = mainObject.getCountWords();
-                Iterator it = wordMap.entrySet().iterator();
+                
+                ArrayList<String> sortCloud = new ArrayList<String>(wordMap.keySet());
+                ArrayList<Integer> valueCloud = new ArrayList<Integer>(wordMap.values());
+                mergeSort(sortCloud,valueCloud);
+                
+                /*Iterator it = wordMap.entrySet().iterator();
                 while (it.hasNext()) {
                     Map.Entry pairs = (Map.Entry) it.next();
                 }
                 
-                ArrayList<String> sortCloud = new ArrayList<String>(wordMap.keySet());
-                ArrayList<Integer> valueCloud = new ArrayList<Integer>(wordMap.values());
-                
-                /*for (String s : wordMap.keySet()) {
-                    sortCloud.add(s);
-                    
-                }*/
-                
-                
-                mergeSort(sortCloud,valueCloud);
-                
-                
+                */
                 
                 PrintWriter outFile = new PrintWriter("WickedWords.html");
                 mainObject.writeIt(outFile,wordMap);
@@ -165,7 +157,7 @@ public class ReadFile
     
     public static void mergeSort(ArrayList<String> theList, ArrayList<Integer> theValues)
     {
-        mergeSortWork(theList,theValues,0,theList.size()-1);
+        mergeSortWork(theList,theValues,0,theValues.size()-1);
         
         /*HashMap<String, Integer> items = new HashMap<String,Integer>();
         for (HashMap<String,Integer> hm : theList) {
@@ -210,32 +202,35 @@ public class ReadFile
        int indexA = startA;
        int indexB = startB;
        
+       
        while (indexA < startB && indexB <= endB) {
            if (theValues.get(indexA) < theValues.get(indexB)) {
-               tempArray.get(index) = theList.get(indexA);
+               
+               tempArray.set(index, theList.get(indexA));
                indexA++;
            } else {
-               tempArray.get(index) = theList.get(indexB);
+               tempArray.set(index, theList.get(indexB));
                indexB++;
            }
            index++;
        }
-       
-       
                 
        for (String s : tempArray) {
            for (;indexA<startB;indexA++,index++) {
-               tempArray.get(index) = theList.get(indexA);
+               tempArray.set(index, theList.get(indexA));
+               //tempArray.get(index) = theList.get(indexA);
                
            }
            
            for (;indexB<startB;indexB++,index++) {
-               tempArray.get(index) = theList.get(indexB);
+               tempArray.set(index, theList.get(indexB));
+               //tempArray.get(index) = theList.get(indexB);
                
            }
            
            for (int i=0; i<index; i++) {
-               theList.get(startA+i) = tempArray.get(i);
+               theList.set(startA+1, tempArray.get(i));
+               //theList.get(startA+i) = tempArray.get(i);
            }
         }
             
