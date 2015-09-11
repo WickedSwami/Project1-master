@@ -24,34 +24,13 @@ public class ReadFile
     public void readIt(Scanner infile)
     {
         
-        
         while (infile.hasNext())
         {
             String word = infile.next();
             myWords.add(word);
-            
-            
-            /*ArrayList<String> wordBank = new ArrayList<String>();
-            wordBank.add(word);
-            countWords.put(word,1);
-
-            for (String w : wordBank) {
-                if (countWords.containsKey(w)) {
-                    int freq = 1;
-                    countWords.put(w,new Integer(freq));
-                } else {
-                    int consecutiveOcc = countWords.get(w);
-                    consecutiveOcc++;
-                    countWords.put(w,new Integer(consecutiveOcc));
-                }
-            }  */
-            
-            //int[] valueList = new int[countWords.size()];
-            //mergeSort(valueList);
             System.out.println(word);
         }
         
-                
     }
     
     /**
@@ -70,7 +49,7 @@ public class ReadFile
             int freq = someWords.get(word);
             outputFile.println("<p style='font-size:"+freq*10+"'>"+word+"</p>");
         }
-        //outputFile.println(someWords);
+        
         
         outputFile.println("</html>");
         outputFile.println("</body>");
@@ -92,15 +71,6 @@ public class ReadFile
  
     public ArrayList<String> getMyWords()
     {
-        /*ArrayList<String> allWords = new ArrayList<String>();
-        
-        for (String word : countWords.keySet()) {
-            allWords.add(word);
-        }
-        
-        return allWords;
-        */
-       
         return myWords;
     }
     
@@ -138,13 +108,6 @@ public class ReadFile
                 ArrayList<Integer> valueCloud = new ArrayList<Integer>(wordMap.values());
                 mergeSort(sortCloud,valueCloud);
                 
-                /*Iterator it = wordMap.entrySet().iterator();
-                while (it.hasNext()) {
-                    Map.Entry pairs = (Map.Entry) it.next();
-                }
-                
-                */
-                
                 PrintWriter outFile = new PrintWriter("WickedWords.html");
                 mainObject.writeIt(outFile,wordMap);
                 outFile.close();
@@ -158,26 +121,6 @@ public class ReadFile
     public static void mergeSort(ArrayList<String> theList, ArrayList<Integer> theValues)
     {
         mergeSortWork(theList,theValues,0,theValues.size()-1);
-        
-        /*HashMap<String, Integer> items = new HashMap<String,Integer>();
-        for (HashMap<String,Integer> hm : theList) {
-            for (String s : hm.keySet()) {
-                
-                items.put(s,hm.get(s));
-                List<Integer> valueList = new ArrayList<Integer>();
-                valueList.add((items.get(s)));
-                mergeSortWork(items,0,valueList.size()-1);
-            }
-        }
-        
-        Iterator it = items.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pairs = (Map.Entry) it.next();
-            List<Integer> valueList = new ArrayList<Integer>(items.values());
-            mergeSortWork(valueList.size(),0,valueList.size()-1);
-        } */
-        
-        
     }
     
     public static void mergeSortWork(ArrayList<String> theList, ArrayList<Integer> theValues, int startIndex, int endIndex)
@@ -194,7 +137,6 @@ public class ReadFile
     public static void merge(ArrayList<String> theList, ArrayList<Integer> theValues, int startA, int startB, int endB) 
     {
        
-       //HashMap<String,Integer> temporaryMap = new HashMap<String, Integer>();
        ArrayList<String> tempArray = new ArrayList<String>();
        
        int listLength = endB-startA + 1;
@@ -218,59 +160,20 @@ public class ReadFile
        for (String s : tempArray) {
            for (;indexA<startB;indexA++,index++) {
                tempArray.set(index, theList.get(indexA));
-               //tempArray.get(index) = theList.get(indexA);
                
            }
            
            for (;indexB<startB;indexB++,index++) {
                tempArray.set(index, theList.get(indexB));
-               //tempArray.get(index) = theList.get(indexB);
                
            }
            
            for (int i=0; i<index; i++) {
                theList.set(startA+1, tempArray.get(i));
-               //theList.get(startA+i) = tempArray.get(i);
+               
            }
         }
-            
-       
-       /*Iterator it = theList.entrySet().iterator();
-       while (it.hasNext()) {
-            
-        Map.Entry nums = (Map.Entry) it.next();
-        List<String> keyList = new ArrayList<String>(theList.keySet());
-        List<Integer> valueList = new ArrayList<Integer>(theList.values());
-
-           
-           
-           
-           for (String w : keyList) {
-               while (indexA < startB && indexB <= endB) {
-                   if (valueList.get(indexA) < valueList.get(indexB)) {
-                       temporaryList.put(w, indexA);
-                       indexA++;
-                   } else {
-                       temporaryList.put(w, indexB);
-                       indexB++;
-                   }
-                   index++;
-                }
-                
-               for (;indexA<startB;indexA++,index++) {
-                   temporaryList.put(w, indexA);
-                   
-               }
-               for (;indexB<startB;indexB++,index++) {
-                   temporaryList.put(w, indexB);
-                   
-               }
-               for (int i=0; i<index; i++) {
-                   theList.put(keyList.get(startA+i), i);
-               }
-            }
-        }*/
+        
     }
-    
     
 }
