@@ -76,6 +76,14 @@ public class ReadFile
         outputFile.println("</body>");
     }
     
+    public int getOneWordCount(String word)
+    {
+        if (countWords.containsKey(word)) {
+            return countWords.get(word);
+        }
+        
+        return 0;
+    }
     
     public HashMap<String, Integer> getCountWords()
     {
@@ -100,35 +108,12 @@ public class ReadFile
         int i=1;
         
         for (String word : words) {
-            
             if (!countWords.containsKey(word)) {
                 countWords.put(word, 1);
             } else {
                 countWords.put(word,countWords.get(word)+1);
             }
         }
-        
-        
-        
-        /*for (String word : words) {
-            if (myWords.contains(word)) {
-                //Integer value = 1;
-                //countWords.put(word, new Integer(value));
-                
-                Integer consecutiveOcc = 1;
-                consecutiveOcc ++;
-                countWords.put(word, new Integer(consecutiveOcc));
-            } else {
-                Integer value = 1;
-                countWords.put(word, new Integer(value));
-                
-                //Integer consecutiveOcc = countWords.get(word);
-                //consecutiveOcc ++;
-                //countWords.put(word, new Integer(consecutiveOcc));
-            }
-            
-        } */ 
-        
         
         return countWords;
     }
@@ -145,27 +130,28 @@ public class ReadFile
                 Scanner in = new Scanner(fileToRead);
                 mainObject.readIt(in);
                 
-                
                 ArrayList<String> wordCloud = mainObject.getMyWords();
-                HashMap<String,Integer> wordMap = mainObject.getCountWords();
                 mainObject.countWordOccurences(wordCloud);
                 
+                
+                HashMap<String,Integer> wordMap = mainObject.getCountWords();
                 Iterator it = wordMap.entrySet().iterator();
                 while (it.hasNext()) {
                     Map.Entry pairs = (Map.Entry) it.next();
-                    //System.out.println(pairs.getKey() + " = " + pairs.getValue());
                 }
                 
-                ArrayList<HashMap<String,Integer>> sortThis=new ArrayList<HashMap<String,Integer>>();
-                //List<String> wordList = new ArrayList<String>(wordMap.keySet());
-                //List<Integer> valueList = new ArrayList<Integer>(wordMap.values());
+                ArrayList<String> sortCloud = new ArrayList<String>(wordMap.keySet());
+                ArrayList<Integer> valueCloud = new ArrayList<Integer>(wordMap.values());
                 
-                for (String s : wordMap.keySet()) {
-                    HashMap<String, Integer> entry = new HashMap<String, Integer>();
-                    entry.put(s,wordMap.get(s));
-                    sortThis.add(entry);
-                }
-                mergeSort(sortThis);
+                /*for (String s : wordMap.keySet()) {
+                    sortCloud.add(s);
+                    
+                }*/
+                
+                
+                mergeSort(sortCloud,valueCloud);
+                
+                
                 
                 PrintWriter outFile = new PrintWriter("WickedWords.html");
                 mainObject.writeIt(outFile,wordMap);
@@ -177,9 +163,11 @@ public class ReadFile
     
     }
     
-    public static void mergeSort(ArrayList<HashMap<String,Integer>> theList)
+    public static void mergeSort(ArrayList<String> theList, ArrayList<Integer> theValues)
     {
-        HashMap<String, Integer> items = new HashMap<String,Integer>();
+        mergeSortWork(theList,theValues,0,theList.size()-1);
+        
+        /*HashMap<String, Integer> items = new HashMap<String,Integer>();
         for (HashMap<String,Integer> hm : theList) {
             for (String s : hm.keySet()) {
                 
@@ -190,8 +178,7 @@ public class ReadFile
             }
         }
         
-        
-        /*Iterator it = items.entrySet().iterator();
+        Iterator it = items.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pairs = (Map.Entry) it.next();
             List<Integer> valueList = new ArrayList<Integer>(items.values());
@@ -201,28 +188,59 @@ public class ReadFile
         
     }
     
-    public static void mergeSortWork(HashMap<String, Integer> theList, int startIndex, int endIndex)
+    public static void mergeSortWork(ArrayList<String> theList, ArrayList<Integer> theValues, int startIndex, int endIndex)
     {
         if (startIndex < endIndex) {
             int listLength = endIndex - startIndex+1;
             int middle = startIndex + listLength/2;
-            mergeSortWork(theList, startIndex, middle);
-            mergeSortWork(theList, middle+1, endIndex);
-            merge(theList, startIndex, middle+1, endIndex);
+            mergeSortWork(theList, theValues, startIndex, middle);
+            mergeSortWork(theList, theValues, middle+1, endIndex);
+            merge(theList, theValues, startIndex, middle+1, endIndex);
         }
     }
     
-    public static void merge(HashMap<String,Integer> theList, int startA, int startB, int endB) 
+    public static void merge(ArrayList<String> theList, ArrayList<Integer> theValues, int startA, int startB, int endB) 
     {
-       //HashMap<Integer,String> reverseList = new HashMap<Integer,String>();
-       HashMap<String,Integer> temporaryList = new HashMap<String,Integer>();
+       
+       //HashMap<String,Integer> temporaryMap = new HashMap<String, Integer>();
+       ArrayList<String> tempArray = new ArrayList<String>();
        
        int listLength = endB-startA + 1;
        int index = 0;
        int indexA = startA;
        int indexB = startB;
        
-       Iterator it = theList.entrySet().iterator();
+       while (indexA < startB && indexB <= endB) {
+           if (theValues.get(indexA) < theValues.get(indexB)) {
+               tempArray.get(index) = theList.get(indexA);
+               indexA++;
+           } else {
+               tempArray.get(index) = theList.get(indexB);
+               indexB++;
+           }
+           index++;
+       }
+       
+       
+                
+       for (String s : tempArray) {
+           for (;indexA<startB;indexA++,index++) {
+               tempArray.get(index) = theList.get(indexA);
+               
+           }
+           
+           for (;indexB<startB;indexB++,index++) {
+               tempArray.get(index) = theList.get(indexB);
+               
+           }
+           
+           for (int i=0; i<index; i++) {
+               theList.get(startA+i) = tempArray.get(i);
+           }
+        }
+            
+       
+       /*Iterator it = theList.entrySet().iterator();
        while (it.hasNext()) {
             
         Map.Entry nums = (Map.Entry) it.next();
@@ -230,9 +248,7 @@ public class ReadFile
         List<Integer> valueList = new ArrayList<Integer>(theList.values());
 
            
-           /*for (int i=0; i<keyList.size(); i++) {
-                reverseList.put(valueList.get(i),keyList.get(i));
-           }*/
+           
            
            for (String w : keyList) {
                while (indexA < startB && indexB <= endB) {
@@ -258,7 +274,7 @@ public class ReadFile
                    theList.put(keyList.get(startA+i), i);
                }
             }
-        }
+        }*/
     }
     
     
