@@ -247,11 +247,11 @@ public class ReadFile
                 }
                 
                for (;indexA<startB;indexA++,index++) {
-                   theList.put(w, indexA);
+                   temporaryList.put(w, indexA);
                    
                }
                for (;indexB<startB;indexB++,index++) {
-                   theList.put(w, indexB);
+                   temporaryList.put(w, indexB);
                    
                }
                for (int i=0; i<index; i++) {
