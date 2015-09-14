@@ -109,8 +109,6 @@ public class ReadFile
     }
     
     
-    
-    
     public void mergeSort(ArrayList<String> theList)
     {
         mergeSortWork(theList,0,theList.size()-1);
@@ -156,68 +154,26 @@ public class ReadFile
        }
        
        
-       
-       /*for (String w : refSet) {
-           for (;indexA<startB;indexA++,index++) {
-               tempMap.put(w,indexA);
-               
-           }
-           
-           for (;indexB<=endB;indexB++,index++) {
-               tempMap.put(w, indexB);
-               
-           }
-       }*/
-           
            
        for (;indexA<startB;indexA++,index++) {
            //tempArray.get(index) = theList.get(indexA);
            //tempArray.set(index,theList.get(indexA));
            tempArray.add(theList.get(indexA));
        }
-       for (;indexB<=startB;indexB++,index++) {
+       
+       for (;indexB<=endB;indexB++,index++) {
     		//tempArray.get(index) = theList.get(indexA);
     		//tempArray.set(index,theList.get(indexB));
     		tempArray.add(theList.get(indexB));
        }
+       
        for (int i = 0; i < index; i++) {
     		//theList.get(startA+i)=tempArray.get(i);
-    		theList.set(i,tempArray.get(i));
+    		theList.set(startA+i,tempArray.get(i));
     		
        }
        
-    }
-       
-       
-       
-       
-       /*while (indexA < startB && indexB <= endB) {
-           if (refSet.get(indexA < theValues.get(indexB)) {
-               
-               tempArray.add(theList.get(indexA));
-               indexA++;
-           } else {
-               tempArray.add(theList.get(indexB));
-               indexB++;
-           }
-           index++;
-       }
-                
-       for (;indexA<startB;indexA++,index++) {
-           tempArray.add(theList.get(indexA));
-           
-       }
-       
-       for (;indexB<=endB;indexB++,index++) {
-           tempArray.add(theList.get(indexB));
-           
-       }
-       
-       for (int i=0; i<index; i++) {
-           theList.set(startA+i, tempArray.get(i));
-           
-       }*/
-        
+    }    
 }
 
     
