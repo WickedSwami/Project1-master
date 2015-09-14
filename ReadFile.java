@@ -55,15 +55,6 @@ public class ReadFile
         outputFile.println("</body>");
     }
     
-    public int getOneWordCount(String word)
-    {
-        if (countWords.containsKey(word)) {
-            return countWords.get(word);
-        }
-        
-        return 0;
-    }
-    
     public HashMap<String, Integer> getCountWords()
     {
         return countWords;
@@ -105,8 +96,7 @@ public class ReadFile
                 HashMap<String,Integer> wordMap = mainObject.getCountWords();
                 
                 ArrayList<String> sortCloud = new ArrayList<String>(wordMap.keySet());
-                ArrayList<Integer> valueCloud = new ArrayList<Integer>(wordMap.values());
-                mergeSort(sortCloud,valueCloud);
+                mainObject.mergeSort(sortCloud);
                 
                 PrintWriter outFile = new PrintWriter("WickedWords.html");
                 mainObject.writeIt(outFile,wordMap);
@@ -118,118 +108,117 @@ public class ReadFile
     
     }
     
-       public static void mergeSort(ArrayList<String> theList, ArrayList<Integer> theValues)
+    
+    
+    
+    public void mergeSort(ArrayList<String> theList)
     {
-        mergeSortWork(theList,theValues,0,theList.size()-1);
+        mergeSortWork(theList,0,theList.size()-1);
     }
     
-    public static void mergeSortWork(ArrayList<String> theList, ArrayList<Integer> theValues, int startIndex, int endIndex)
+    public void mergeSortWork(ArrayList<String> theList, int startIndex, int endIndex)
     {
         System.out.println(startIndex+ " " + endIndex);
         if (startIndex < endIndex) {
             int listLength = endIndex - startIndex+1;
             int middle = startIndex + listLength/2;
-            mergeSortWork(theList, theValues, startIndex, middle-1);
-            mergeSortWork(theList, theValues, middle, endIndex);
-            merge(theList, theValues, startIndex, middle, endIndex);
+            mergeSortWork(theList, startIndex, middle-1);
+            mergeSortWork(theList, middle, endIndex);
+            merge(theList, startIndex, middle, endIndex);
         }
     }
     
-    public static void merge(ArrayList<String> theList, ArrayList<Integer> theValues, int startA, int startB, int endB) 
+    public void merge(ArrayList<String> theList, int startA, int startB, int endB) 
     {
        
              
        int listLength = endB-startA + 1;
        System.out.println(startA + " " + startB + " " + endB + " " + listLength);
-        ArrayList<String> tempArray = new ArrayList<String>();
+       
+       HashMap<String, Integer> refMap = this.getCountWords();
+       ArrayList<String> tempArray = new ArrayList<String>();
+       
        int index = 0;
        int indexA = startA;
        int indexB = startB;
        
        while (indexA < startB && indexB <= endB) {
-           if (theValues.get(indexA) < theValues.get(indexB)) {
-               
+           if (refMap.get(theList.get(indexA)) < refMap.get(theList.get(indexB))) {
                tempArray.add(theList.get(indexA));
                indexA++;
            } else {
                tempArray.add(theList.get(indexB));
                indexB++;
            }
+            
+            
            index++;
        }
-                
+       
+       
+       
+       /*for (String w : refSet) {
            for (;indexA<startB;indexA++,index++) {
-               tempArray.add(theList.get(indexA));
+               tempMap.put(w,indexA);
                
            }
            
            for (;indexB<=endB;indexB++,index++) {
-               tempArray.add(theList.get(indexB));
+               tempMap.put(w, indexB);
                
            }
+       }*/
            
-           for (int i=0; i<index; i++) {
-               theList.set(startA+i, tempArray.get(i));
+           
+       for (;indexA<startB;indexA++,index++) {
+           //tempArray.get(index) = theList.get(indexA);
+           //tempArray.set(index,theList.get(indexA));
+           tempArray.add(theList.get(indexA));
+       }
+       for (;indexB<=startB;indexB++,index++) {
+    		//tempArray.get(index) = theList.get(indexA);
+    		//tempArray.set(index,theList.get(indexB));
+    		tempArray.add(theList.get(indexB));
+       }
+       for (int i = 0; i < index; i++) {
+    		//theList.get(startA+i)=tempArray.get(i);
+    		theList.set(i,tempArray.get(i));
+    		
+       }
+       
+    }
+       
+       
+       
+       
+       /*while (indexA < startB && indexB <= endB) {
+           if (refSet.get(indexA < theValues.get(indexB)) {
                
-           }
-        
-    }
-    
-    /*public static void mergeSort(ArrayList<String> theList, ArrayList<Integer> theValues)
-    {
-        mergeSortWork(theList,theValues,0,theList.size()-1);
-    }
-    
-    public static void mergeSortWork(ArrayList<String> theList, ArrayList<Integer> theValues, int startIndex, int endIndex)
-    {
-        if (startIndex < endIndex) {
-            int listLength = endIndex - startIndex+1;
-            int middle = startIndex + listLength/2;
-            mergeSortWork(theList, theValues, startIndex, middle);
-            mergeSortWork(theList, theValues, middle+1, endIndex);
-            merge(theList, theValues, startIndex, middle+1, endIndex);
-        }
-    }
-    
-    public static void merge(ArrayList<String> theList, ArrayList<Integer> theValues, int startA, int startB, int endB) 
-    {
-       
-       ArrayList<String> tempArray = new ArrayList<String>();
-       
-       int listLength = endB-startA + 1;
-       int index = 0;
-       int indexA = startA;
-       int indexB = startB;
-       
-       while (indexA < startB && indexB <= endB) {
-           if (theValues.get(indexA) < theValues.get(indexB)) {
-               
-               tempArray.set(index, theList.get(indexA));
+               tempArray.add(theList.get(indexA));
                indexA++;
            } else {
-               tempArray.set(index, theList.get(indexB));
+               tempArray.add(theList.get(indexB));
                indexB++;
            }
            index++;
        }
                 
-       for (String s : tempArray) {
-           for (;indexA<startB;indexA++,index++) {
-               tempArray.set(index, theList.get(indexA));
-               
-           }
+       for (;indexA<startB;indexA++,index++) {
+           tempArray.add(theList.get(indexA));
            
-           for (;indexB<startB;indexB++,index++) {
-               tempArray.set(index, theList.get(indexB));
-               
-           }
+       }
+       
+       for (;indexB<=endB;indexB++,index++) {
+           tempArray.add(theList.get(indexB));
            
-           for (int i=0; i<index; i++) {
-               theList.set(startA+1, tempArray.get(i));
-               
-           }
-        }
+       }
+       
+       for (int i=0; i<index; i++) {
+           theList.set(startA+i, tempArray.get(i));
+           
+       }*/
         
-    }*/
-    
 }
+
+    
+
