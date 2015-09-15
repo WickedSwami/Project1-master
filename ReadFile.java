@@ -33,11 +33,7 @@ public class ReadFile
         
     }
     
-    /**
-    * BONUS: Writing to a file
-    * @param outputFile is the file object for output
-    * @param someWords is a list of words to print out
-    **/
+    
     public void writeIt(PrintWriter outputFile, HashMap<String,Integer> someWords)
     {
         outputFile.println("<html>");
@@ -49,6 +45,7 @@ public class ReadFile
             int freq = someWords.get(word);
             outputFile.println("<p style='font-size:"+freq*10+"'>"+word+"</p>");
         }
+        
         
         
         outputFile.println("</html>");
@@ -90,16 +87,24 @@ public class ReadFile
             try {
                 Scanner in = new Scanner(fileToRead);
                 mainObject.readIt(in);
+                PrintWriter outFile = new PrintWriter("WickedWords.html");
                 
                 ArrayList<String> wordCloud = mainObject.getMyWords();
                 mainObject.countWordOccurences(wordCloud);
-                HashMap<String,Integer> wordMap = mainObject.getCountWords();
+                //mainObject.mergeSort(wordCloud);
                 
+                HashMap<String,Integer> wordMap = mainObject.getCountWords();
                 ArrayList<String> sortCloud = new ArrayList<String>(wordMap.keySet());
                 mainObject.mergeSort(sortCloud);
                 
-                PrintWriter outFile = new PrintWriter("WickedWords.html");
-                mainObject.writeIt(outFile,wordMap);
+                HashMap<String,Integer> writeThis = new HashMap<String,Integer>();
+                
+                for (String s : sortCloud) {
+                    writeThis.put(s, wordMap.get(s));
+                }
+                
+                
+                mainObject.writeIt(outFile,writeThis);
                 outFile.close();
             } catch (IOException e) {
                 System.out.println("There's a file error! " + e);
