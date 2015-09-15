@@ -34,15 +34,22 @@ public class ReadFile
     }
     
     
-    public void writeIt(PrintWriter outputFile, HashMap<String,Integer> someWords)
+    public void writeIt(PrintWriter outputFile, ArrayList<String> someWords)
     {
         outputFile.println("<html>");
         outputFile.println("<body>");
         
         
-        for (String word: someWords.keySet()) {
+        
+        /*for (String word: someWords.keySet()) {
             
             int freq = someWords.get(word);
+            outputFile.println("<p style='font-size:"+freq*10+"'>"+word+"</p>");
+        }/*/
+        
+        for (String word : someWords) {
+            
+            int freq = this.getCountWords().get(word);
             outputFile.println("<p style='font-size:"+freq*10+"'>"+word+"</p>");
         }
         
@@ -97,14 +104,12 @@ public class ReadFile
                 ArrayList<String> sortCloud = new ArrayList<String>(wordMap.keySet());
                 mainObject.mergeSort(sortCloud);
                 
-                HashMap<String,Integer> writeThis = new HashMap<String,Integer>();
-                
                 for (String s : sortCloud) {
-                    writeThis.put(s, wordMap.get(s));
+                    System.out.println("" + s + wordMap.get(s) + "");
                 }
                 
                 
-                mainObject.writeIt(outFile,writeThis);
+                mainObject.writeIt(outFile,sortCloud);
                 outFile.close();
             } catch (IOException e) {
                 System.out.println("There's a file error! " + e);
